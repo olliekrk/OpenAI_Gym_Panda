@@ -1,0 +1,4 @@
+gym==0.18.0
+panda-gym==1.0.1
+mpi4py==3.0.3
+baselines==0.1.5
