@@ -143,3 +143,8 @@ tensorforce_panda/**/
 
 tensorforce_attempt/**/
 !tensorforce_attempt/**/*.py
+
+
+*env/
+Panda*/
+.vscode/
