@@ -148,3 +148,5 @@ tensorforce_attempt/**/
 *env/
 Panda*/
 .vscode/
+
+*.png
