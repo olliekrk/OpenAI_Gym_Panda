@@ -7,8 +7,8 @@ from gym.wrappers import Monitor
 
 
 LEVEL = 'PandaReachDense-v1'
-EPISODES = 50  # 5000
-EPISODE_MAX_LENGTH = 250
+EPISODES = 500  # 5000
+EPISODE_MAX_LENGTH = 100
 PARALLEL = 10
 
 MODEL_DICT = f'{LEVEL}/model'
@@ -35,20 +35,22 @@ def get_agent_and_runner():
         # Automatically configured network
         # network='auto',
         network=[
-            dict(type='dense', size=32, activation='relu'),
-            dict(type='dense', size=32, activation='relu'),
-            dict(type='dense', size=64, activation='relu'),
-            dict(type='dense', size=64, activation='relu'),
+            dict(type='dense', size=32, activation='tanh'),
+            dict(type='dense', size=32, activation='tanh'),
+            dict(type='dense', size=64, activation='tanh'),
+            dict(type='dense', size=64, activation='tanh'),
+            dict(type='dropout', rate=0.6),
             dict(type='dense', size=16, activation='tanh')
         ],
         # PPO optimization parameters
-        batch_size=50, update_frequency=2, learning_rate=4.5e-1, multi_step=10,
+        batch_size=15, update_frequency=2, learning_rate=4.5e-5, multi_step=10,
         subsampling_fraction=0.33,
+        memory=10000,
         # Reward estimation
-        likelihood_ratio_clipping=0.2, discount=0.995, predict_terminal_values=False,
+        likelihood_ratio_clipping=0.3, discount=0.55, predict_terminal_values=False,
         # Baseline network and optimizer
         baseline=dict(type='auto', size=32, depth=1),
-        baseline_optimizer=dict(optimizer='adam', learning_rate=1e-3, multi_step=10),
+        baseline_optimizer=dict(optimizer='adam', learning_rate=1e-5, multi_step=10),
         # Regularization
         l2_regularization=0.2, entropy_regularization=0.0,
         # Preprocessing
