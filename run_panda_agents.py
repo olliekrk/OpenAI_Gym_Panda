@@ -17,18 +17,21 @@ parser = argparse.ArgumentParser()
 parser.add_argument('policy', choices=[
     'ppo', 'ddpg', 'actor'
 ], help=policy_help, metavar='policy')
+parser.add_argument('--max_timesteps', type=int, required=False)
 args = parser.parse_args()
 
 POLICY_CHOICES = {
-    'ppo': panda_ppo.get_agent_and_runner,
-    'ddpg': panda_ddpg.get_agent_and_runner
+    'ppo': panda_ppo,
+    'ddpg': panda_ddpg
 }
 
 rs = RandomState(MT19937(SeedSequence(52136)))
 
 policy = args.policy
-agent, runner = POLICY_CHOICES[policy]()
-runner.run(num_episodes=panda_ppo.EPISODES)
+max_episode_timesteps = args.max_timesteps
+chosen_policy = POLICY_CHOICES[policy]
+agent, runner = chosen_policy.get_agent_and_runner(max_episode_timesteps)
+runner.run(num_episodes=chosen_policy.EPISODES)
 
 plt.figure(0)
 plt.plot(runner.episode_returns)

@@ -16,10 +16,11 @@ SUMMARY_DICT = f'{LEVEL}/summary'
 RECORD_DICT = f'{LEVEL}/record'
 
 
-def get_agent_and_runner():
+def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
+    max_timesteps = EPISODE_MAX_LENGTH if max_timesteps is None else max_timesteps
     # OpenAI-Gym environment specification
     gym_environment = gym.make(LEVEL, render=True)
-    gym_environment = TimeLimit(gym_environment.unwrapped, max_episode_steps=EPISODE_MAX_LENGTH)
+    gym_environment = TimeLimit(gym_environment.unwrapped, max_episode_steps=max_timesteps)
     # gym_environment = Monitor(gym_environment, RECORD_DICT, force=True)
 
 

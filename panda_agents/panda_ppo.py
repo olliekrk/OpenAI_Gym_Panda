@@ -3,12 +3,11 @@ import panda_gym
 from tensorforce import Runner, Environment
 from tensorforce.agents.agent import Agent
 from gym.wrappers.time_limit import TimeLimit
-from gym.wrappers import Monitor
 
 
 LEVEL = 'PandaReachDense-v1'
 EPISODES = 500  # 5000
-EPISODE_MAX_LENGTH = 100
+EPISODE_MAX_LENGTH = 150
 PARALLEL = 10
 
 MODEL_DICT = f'{LEVEL}/model'
@@ -16,11 +15,13 @@ SUMMARY_DICT = f'{LEVEL}/summary'
 RECORD_DICT = f'{LEVEL}/record'
 
 
-def get_agent_and_runner():
+def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
+    max_timesteps = EPISODE_MAX_LENGTH if max_timesteps is None else max_timesteps
     # OpenAI-Gym environment specification
     gym_environment = gym.make(LEVEL, render=True)
-    gym_environment = TimeLimit(gym_environment.unwrapped, max_episode_steps=EPISODE_MAX_LENGTH)
+    gym_environment = TimeLimit(gym_environment.unwrapped, max_episode_steps=max_timesteps)
     # gym_environment = Monitor(gym_environment, RECORD_DICT, force=True)
+
 
     environment = Environment.create(
         environment=gym_environment, 
