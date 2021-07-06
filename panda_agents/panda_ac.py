@@ -29,7 +29,7 @@ def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
     )
 
     agent = Agent.create(
-        agent='ddpg',
+        agent='a2c',
         environment=environment,
         # parallel_interactions=PARALLEL,
         # Automatically configured network
@@ -43,7 +43,6 @@ def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
             dict(type='dense', size=16, activation='tanh')
         ],
         batch_size=15, update_frequency=2, learning_rate=4.5e-5,
-        memory=10000,
         # Reward estimation
         discount=0.995, predict_terminal_values=False,
         # Regularization

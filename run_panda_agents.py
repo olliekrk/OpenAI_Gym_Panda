@@ -3,7 +3,7 @@ from numpy.random import RandomState, SeedSequence
 import matplotlib.pyplot as plt
 import argparse
 
-from panda_agents import panda_ppo, panda_ddpg
+from panda_agents import panda_ppo, panda_ddpg, panda_ac
 
 
 policy_help = """
@@ -25,7 +25,8 @@ args = parser.parse_args()
 
 POLICY_CHOICES = {
     'ppo': panda_ppo,
-    'ddpg': panda_ddpg
+    'ddpg': panda_ddpg,
+    'actor': panda_ac
 }
 
 rs = RandomState(MT19937(SeedSequence(52136)))
