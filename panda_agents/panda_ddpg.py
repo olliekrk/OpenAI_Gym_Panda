@@ -7,7 +7,7 @@ from gym.wrappers.time_limit import TimeLimit
 
 LEVEL = 'PandaReachDense-v1'
 EPISODES = 500  # 5000
-EPISODE_MAX_LENGTH = 150
+EPISODE_MAX_LENGTH = 50
 PARALLEL = 10
 
 MODEL_DICT = f'{LEVEL}/model'
@@ -33,17 +33,18 @@ def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
         environment=environment,
         # parallel_interactions=PARALLEL,
         # Automatically configured network
-        # network='auto',
-        network=[
-            dict(type='dense', size=32, activation='tanh'),
-            dict(type='dense', size=32, activation='tanh'),
-            dict(type='dense', size=64, activation='tanh'),
-            dict(type='dense', size=64, activation='tanh'),
-            dict(type='dropout', rate=0.6),
-            dict(type='dense', size=16, activation='tanh')
-        ],
-        batch_size=15, update_frequency=2, learning_rate=4.5e-5,
-        memory=10000,
+        network='auto',
+        # network=[
+        #     dict(type='dense', size=32, activation='tanh'),
+        #     dict(type='dense', size=32, activation='tanh'),
+        #     dict(type='dense', size=64, activation='tanh'),
+        #     dict(type='dense', size=64, activation='tanh'),
+        #     dict(type='dropout', rate=0.7),
+        #     dict(type='dense', size=12, activation='tanh')
+        # ],
+        batch_size=15, update_frequency=2, learning_rate=4.5e-7,
+        memory=10000,# horizon=15,
+        # use_beta_distribution=False,
         # Reward estimation
         discount=0.995, predict_terminal_values=False,
         # Regularization
