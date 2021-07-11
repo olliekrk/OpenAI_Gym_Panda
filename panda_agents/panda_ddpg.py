@@ -6,7 +6,7 @@ from gym.wrappers.time_limit import TimeLimit
 
 
 LEVEL = 'PandaReachDense-v1'
-EPISODES = 500  # 5000
+EPISODES = 15000  # 5000
 EPISODE_MAX_LENGTH = 50
 PARALLEL = 10
 
@@ -31,28 +31,24 @@ def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
     agent = Agent.create(
         agent='ddpg',
         environment=environment,
-        # parallel_interactions=PARALLEL,
+        memory=10000,
+#         parallel_interactions=PARALLEL,
         # Automatically configured network
-        network='auto',
-        # network=[
-        #     dict(type='dense', size=32, activation='tanh'),
-        #     dict(type='dense', size=32, activation='tanh'),
-        #     dict(type='dense', size=64, activation='tanh'),
-        #     dict(type='dense', size=64, activation='tanh'),
-        #     dict(type='dropout', rate=0.7),
-        #     dict(type='dense', size=12, activation='tanh')
-        # ],
-        batch_size=15, update_frequency=2, learning_rate=4.5e-7,
-        memory=10000,# horizon=15,
-        # use_beta_distribution=False,
+        network=[
+            dict(type='dense', size=256, activation='tanh'),
+            dict(type='dense', size=256, activation='tanh'),
+            dict(type='dense', size=256, activation='tanh'),
+        ],
+#         network='auto',
+        batch_size=256, update_frequency=2, learning_rate=0.001,
         # Reward estimation
         discount=0.995, predict_terminal_values=False,
         # Regularization
-        l2_regularization=0.2, entropy_regularization=0.0,
+        l2_regularization=1.0, entropy_regularization=0.0,
         # Preprocessing
         state_preprocessing='linear_normalization', reward_preprocessing=None,
         # Exploration
-        exploration=0.15, variable_noise=0.0,
+        exploration=0.3, variable_noise=0.2,
         # Default additional config values
         config=None,
         # Save agent every 10 updates and keep the 5 most recent checkpoints
@@ -60,7 +56,7 @@ def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
         # Log all available Tensorboard summaries
         summarizer=dict(directory=SUMMARY_DICT, summaries='all'),
         # Do not record agent-environment interaction trace
-        recorder=None  # RECORD_DICT
+        recorder=None # RECORD_DICT
     )
 
     # Initialize the runner

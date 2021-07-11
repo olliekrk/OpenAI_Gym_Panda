@@ -6,7 +6,7 @@ from gym.wrappers.time_limit import TimeLimit
 
 
 LEVEL = 'PandaReachDense-v1'
-EPISODES = 500  # 5000
+EPISODES = 15000  # 5000
 EPISODE_MAX_LENGTH = 150
 PARALLEL = 10
 
@@ -44,11 +44,11 @@ def get_agent_and_runner(max_timesteps=EPISODE_MAX_LENGTH):
             dict(type='dense', size=16, activation='tanh')
         ],
         # PPO optimization parameters
-        batch_size=15, update_frequency=2, learning_rate=4.5e-5, multi_step=10,
+        batch_size=20, update_frequency=2, learning_rate=4.5e-5, multi_step=10,
         subsampling_fraction=0.33,
         memory=10000,
         # Reward estimation
-        likelihood_ratio_clipping=0.3, discount=0.55, predict_terminal_values=False,
+        likelihood_ratio_clipping=0.3, discount=0.995, predict_terminal_values=False,
         # Baseline network and optimizer
         baseline=dict(type='auto', size=32, depth=1),
         baseline_optimizer=dict(optimizer='adam', learning_rate=1e-5, multi_step=10),
